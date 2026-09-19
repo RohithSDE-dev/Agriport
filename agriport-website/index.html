@@ -4,1176 +4,284 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AGRIPORT — Offline Multimodal Edge AI for Smart Farming</title>
-    <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* CSS STYLES */
+        :root {
+            --bg-primary: #0a0e17;
+            --bg-secondary: #0f1623;
+            --bg-card: #141c2e;
+            --bg-card-hover: #1a2540;
+            --text-primary: #e8edf5;
+            --text-secondary: #8899b4;
+            --text-muted: #5a6a85;
+            --green-primary: #22c55e;
+            --green-light: #4ade80;
+            --green-dark: #15803d;
+            --green-glow: rgba(34, 197, 94, 0.15);
+            --blue-primary: #3b82f6;
+            --yellow-primary: #eab308;
+            --red-primary: #ef4444;
+            --orange-primary: #f97316;
+            --purple-primary: #a855f7;
+            --border-color: #1e2d45;
+            --border-light: #253552;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.4);
+            --font-main: 'Inter', -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --nav-height: 72px;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; scroll-padding-top: var(--nav-height); }
+        body { font-family: var(--font-main); background: var(--bg-primary); color: var(--text-primary); line-height: 1.7; overflow-x: hidden; }
+        a { color: var(--green-light); text-decoration: none; transition: color 0.3s; }
+        a:hover { color: var(--green-primary); }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        .section { padding: 90px 0; position: relative; }
+        .section-dark { background: var(--bg-secondary); }
+        .section-header { text-align: center; margin-bottom: 56px; }
+        .section-tag { display: inline-block; background: var(--green-glow); color: var(--green-light); padding: 6px 20px; border-radius: 100px; font-size: 0.85rem; font-weight: 600; margin-bottom: 16px; border: 1px solid rgba(34, 197, 94, 0.2); }
+        .section-title { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800; margin-bottom: 16px; background: linear-gradient(135deg, var(--text-primary), var(--green-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .section-desc { font-size: 1.05rem; color: var(--text-secondary); max-width: 650px; margin: 0 auto; }
+
+        /* NAVBAR */
+        .navbar { position: fixed; top: 0; left: 0; right: 0; height: var(--nav-height); z-index: 1000; background: rgba(10, 14, 23, 0.9); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-color); }
+        .nav-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 100%; }
+        .nav-logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.3rem; color: var(--text-primary) !important; }
+        .logo-text { background: linear-gradient(135deg, var(--green-light), var(--green-primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .nav-links { display: flex; list-style: none; gap: 8px; }
+        .nav-links a { color: var(--text-secondary); padding: 8px 14px; border-radius: 8px; font-size: 0.9rem; font-weight: 500; }
+        .nav-links a:hover { color: var(--text-primary); background: var(--green-glow); }
+
+        /* HERO */
+        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; padding-top: var(--nav-height); text-align: center; }
+        .hero-content { max-width: 850px; padding: 0 24px; }
+        .hero-badge { display: inline-block; background: var(--bg-card); border: 1px solid var(--border-light); padding: 8px 24px; border-radius: 100px; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 28px; }
+        .hero-title { font-size: clamp(3rem, 8vw, 5.5rem); font-weight: 900; line-height: 1.05; margin-bottom: 20px; letter-spacing: -2px; }
+        .title-highlight { background: linear-gradient(135deg, var(--green-light), var(--green-primary), var(--blue-primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero-subtitle { font-size: clamp(1.1rem, 2.5vw, 1.35rem); color: var(--green-light); font-weight: 600; margin-bottom: 16px; }
+        .hero-description { font-size: 1.05rem; color: var(--text-secondary); max-width: 650px; margin: 0 auto 36px; line-height: 1.8; }
+        .hero-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 48px; }
+
+        .btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 32px; border-radius: var(--radius-md); font-weight: 600; font-size: 1rem; transition: all 0.3s ease; text-decoration: none; }
+        .btn-primary { background: linear-gradient(135deg, var(--green-primary), var(--green-dark)); color: #fff; box-shadow: 0 4px 20px rgba(34, 197, 94, 0.3); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 30px rgba(34, 197, 94, 0.5); color: #fff; }
+        .btn-secondary { background: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border-light); }
+        .btn-secondary:hover { background: var(--bg-card-hover); border-color: var(--green-primary); }
+
+        .hero-stats { display: flex; justify-content: center; gap: 48px; flex-wrap: wrap; }
+        .stat-value { font-size: 1.8rem; font-weight: 800; color: var(--green-light); }
+        .stat-label { font-size: 0.85rem; color: var(--text-muted); display: block; }
+
+        /* GRID CARDS */
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+        .card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 32px; transition: all 0.3s; }
+        .card:hover { border-color: var(--green-primary); transform: translateY(-4px); box-shadow: var(--shadow-md); }
+        .card h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 12px; }
+        .card p { color: var(--text-secondary); font-size: 0.95rem; }
+
+        /* VIDEO CONTAINER */
+        .video-wrapper { position: relative; width: 100%; padding-bottom: 56.25%; border-radius: var(--radius-xl); overflow: hidden; border: 2px solid var(--border-color); background: #000; box-shadow: var(--shadow-md); }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        .video-caption { margin-top: 20px; padding: 16px 24px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); font-size: 0.92rem; color: var(--text-secondary); }
+
+        /* TABLES */
+        .table-wrapper { overflow-x: auto; border-radius: var(--radius-md); border: 1px solid var(--border-color); margin-top: 16px; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.92rem; text-align: left; }
+        th { background: var(--bg-card); padding: 14px 20px; color: var(--text-secondary); font-size: 0.8rem; text-transform: uppercase; border-bottom: 1px solid var(--border-color); }
+        td { padding: 14px 20px; border-bottom: 1px solid var(--border-color); color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+
+        /* CODE BLOCK */
+        .code-block { background: #0d1117; border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; font-family: var(--font-mono); font-size: 0.88rem; }
+        .code-header { padding: 12px 20px; background: rgba(255,255,255,0.03); border-bottom: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.8rem; }
+        .code-block pre { padding: 20px; overflow-x: auto; color: #a5d6ff; line-height: 1.7; }
+
+        /* FOOTER */
+        .footer { padding: 40px 0; border-top: 1px solid var(--border-color); text-align: center; color: var(--text-muted); font-size: 0.9rem; }
+    </style>
 </head>
 <body>
 
-    <!-- ==================== NAVIGATION ==================== -->
-    <nav class="navbar" id="navbar">
+    <!-- NAVBAR -->
+    <nav class="navbar">
         <div class="nav-container">
             <a href="#hero" class="nav-logo">
-                <span class="logo-icon">🌱</span>
-                <span class="logo-text">AGRIPORT</span>
+                <span>🌱</span> <span class="logo-text">AGRIPORT</span>
             </a>
-            <ul class="nav-links" id="navLinks">
+            <ul class="nav-links">
                 <li><a href="#problem">Problem</a></li>
                 <li><a href="#solution">Solution</a></li>
                 <li><a href="#architecture">Architecture</a></li>
-                <li><a href="#prototype">Prototype</a></li>
                 <li><a href="#demo">Demo</a></li>
                 <li><a href="#impact">Impact</a></li>
-                <li><a href="#roadmap">Roadmap</a></li>
                 <li><a href="#team">Team</a></li>
             </ul>
-            <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
         </div>
     </nav>
 
-    <!-- ==================== HERO ==================== -->
+    <!-- HERO -->
     <section class="hero" id="hero">
-        <div class="hero-bg-animation">
-            <div class="particle" style="--delay: 0s; --x: 10%; --y: 20%"></div>
-            <div class="particle" style="--delay: 2s; --x: 80%; --y: 10%"></div>
-            <div class="particle" style="--delay: 4s; --x: 50%; --y: 70%"></div>
-            <div class="particle" style="--delay: 1s; --x: 30%; --y: 50%"></div>
-            <div class="particle" style="--delay: 3s; --x: 70%; --y: 80%"></div>
-            <div class="particle" style="--delay: 5s; --x: 90%; --y: 40%"></div>
-        </div>
         <div class="hero-content">
             <div class="hero-badge">Smart India Hackathon 2025</div>
-            <h1 class="hero-title">
-                <span class="title-line">AGRI</span><span class="title-highlight">PORT</span>
-            </h1>
-            <p class="hero-subtitle">
-                Offline Multimodal Edge AI for Crop Health & Smart Irrigation
-            </p>
+            <h1 class="hero-title">AGRI<span class="title-highlight">PORT</span></h1>
+            <p class="hero-subtitle">Offline Multimodal Edge AI for Crop Health & Smart Irrigation</p>
             <p class="hero-description">
-                Combining crop images with environmental sensors to reduce false disease
-                alerts and automate safe irrigation — without internet connectivity.
+                Combining crop images with environmental sensors to reduce false disease alerts
+                and automate safe irrigation — without internet connectivity.
             </p>
             <div class="hero-actions">
-                <a href="#demo" class="btn btn-primary">
-                    <span class="btn-icon">▶</span> Watch Demo
-                </a>
-                <a href="#solution" class="btn btn-secondary">
-                    Learn More <span class="btn-arrow">→</span>
-                </a>
+                <a href="#demo" class="btn btn-primary">▶ Watch Demo</a>
+                <a href="#solution" class="btn btn-secondary">Explore Solution →</a>
             </div>
             <div class="hero-stats">
-                <div class="stat">
-                    <span class="stat-value">100%</span>
-                    <span class="stat-label">Offline Capable</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-value">&lt;₹5K</span>
-                    <span class="stat-label">Prototype Cost</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-value">Multi</span>
-                    <span class="stat-label">Language UI</span>
-                </div>
+                <div><span class="stat-value">100%</span><span class="stat-label">Offline Capable</span></div>
+                <div><span class="stat-value">&lt;₹5,000</span><span class="stat-label">Prototype Cost</span></div>
+                <div><span class="stat-value">Multi-Lang</span><span class="stat-label">Regional Dashboard</span></div>
             </div>
-        </div>
-        <div class="scroll-indicator">
-            <span>Scroll to explore</span>
-            <div class="scroll-arrow"></div>
         </div>
     </section>
 
-    <!-- ==================== PROBLEM ==================== -->
+    <!-- PROBLEM -->
     <section class="section" id="problem">
         <div class="container">
             <div class="section-header">
                 <span class="section-tag">The Challenge</span>
                 <h2 class="section-title">Why Current Solutions Fail Farmers</h2>
-                <p class="section-desc">
-                    Indian agriculture faces critical gaps that existing technology fails to address
-                </p>
+                <p class="section-desc">Key operational challenges faced in Indian agriculture</p>
             </div>
-            <div class="problems-grid">
-                <div class="problem-card" data-aos="fade-up">
-                    <div class="problem-icon">
-                        <svg viewBox="0 0 64 64" class="icon-svg">
-                            <circle cx="32" cy="32" r="28" fill="none" stroke="currentColor" stroke-width="2"/>
-                            <line x1="20" y1="20" x2="44" y2="44" stroke="currentColor" stroke-width="3"/>
-                            <line x1="44" y1="20" x2="20" y2="44" stroke="currentColor" stroke-width="3"/>
-                            <path d="M32 8 Q32 2 38 4 Q44 6 40 12" fill="none" stroke="currentColor" stroke-width="2"/>
-                        </svg>
-                    </div>
-                    <h3>No Internet, No AI</h3>
-                    <p>
-                        Internet-dependent crop-AI tools fail in low-connectivity rural farms.
-                        Over 60% of Indian farmland lacks reliable mobile data coverage for
-                        real-time cloud inference.
-                    </p>
-                    <div class="problem-stat">
-                        <span class="problem-stat-value">60%+</span>
-                        <span class="problem-stat-label">Farms lack reliable connectivity</span>
-                    </div>
+            <div class="grid-3">
+                <div class="card">
+                    <h3>❌ Internet-Dependent AI Fails</h3>
+                    <p>Over 60% of rural farms lack high-speed connectivity needed for cloud-based crop diagnostic tools.</p>
                 </div>
-                <div class="problem-card" data-aos="fade-up" data-delay="100">
-                    <div class="problem-icon">
-                        <svg viewBox="0 0 64 64" class="icon-svg">
-                            <rect x="12" y="20" width="40" height="30" rx="4" fill="none" stroke="currentColor" stroke-width="2"/>
-                            <circle cx="32" cy="35" r="8" fill="none" stroke="currentColor" stroke-width="2"/>
-                            <path d="M26 12 L38 12 L40 20 L24 20 Z" fill="none" stroke="currentColor" stroke-width="2"/>
-                            <line x1="48" y1="16" x2="56" y2="8" stroke="currentColor" stroke-width="2"/>
-                            <text x="54" y="8" font-size="8" fill="currentColor">?</text>
-                        </svg>
-                    </div>
-                    <h3>Vision-Only False Alarms</h3>
-                    <p>
-                        Camera-only disease detection produces false alarms under poor lighting,
-                        water droplets or visually similar nutrient deficiency symptoms,
-                        leading to unnecessary pesticide spraying.
-                    </p>
-                    <div class="problem-stat">
-                        <span class="problem-stat-value">30-40%</span>
-                        <span class="problem-stat-label">Typical false positive rate (vision-only)</span>
-                    </div>
+                <div class="card">
+                    <h3>❌ Camera-Only False Alarms</h3>
+                    <p>Vision-only detection confuses lighting changes or water droplets with diseases, causing unnecessary pesticide spraying.</p>
                 </div>
-                <div class="problem-card" data-aos="fade-up" data-delay="200">
-                    <div class="problem-icon">
-                        <svg viewBox="0 0 64 64" class="icon-svg">
-                            <path d="M32 8 C32 8 16 28 16 40 C16 49 23 56 32 56 C41 56 48 49 48 40 C48 28 32 8 32 8Z" fill="none" stroke="currentColor" stroke-width="2"/>
-                            <line x1="24" y1="44" x2="40" y2="36" stroke="currentColor" stroke-width="2" stroke-dasharray="4,3"/>
-                        </svg>
-                    </div>
-                    <h3>Water Waste & Pump Damage</h3>
-                    <p>
-                        Manual irrigation scheduling causes water waste, crop stress from
-                        over/under-watering, and pump dry-runs when reservoir levels are
-                        not monitored — leading to motor burnout.
-                    </p>
-                    <div class="problem-stat">
-                        <span class="problem-stat-value">25-40%</span>
-                        <span class="problem-stat-label">Water wasted in flood irrigation</span>
-                    </div>
+                <div class="card">
+                    <h3>❌ Unsafe Water Scheduling</h3>
+                    <p>Manual irrigation causes severe water waste and leads to pump dry-run motor burnouts when reservoirs dry up.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ==================== SOLUTION ==================== -->
+    <!-- SOLUTION -->
     <section class="section section-dark" id="solution">
         <div class="container">
             <div class="section-header">
-                <span class="section-tag">Our Approach</span>
-                <h2 class="section-title">AGRIPORT: Validated Offline Multimodal System</h2>
-                <p class="section-desc">
-                    Combining crop images with environmental sensor data for reliable,
-                    offline agricultural intelligence
-                </p>
+                <span class="section-tag">Our Solution</span>
+                <h2 class="section-title">Validated Offline Multimodal System</h2>
+                <p class="section-desc">AGRIPORT cross-validates image inference with environmental field sensors.</p>
             </div>
-
-            <!-- Pipeline Visualization -->
-            <div class="pipeline">
-                <div class="pipeline-step">
-                    <div class="pipeline-node">
-                        <span class="pipeline-emoji">📷</span>
-                        <span class="pipeline-plus">+</span>
-                        <span class="pipeline-emoji">🌡️</span>
-                    </div>
-                    <span class="pipeline-label">Camera + Field Sensors</span>
+            <div class="grid-3">
+                <div class="card">
+                    <h3>📡 Fully Offline</h3>
+                    <p>No mandatory cloud subscription or continuous mobile data needed for daily operation.</p>
                 </div>
-                <div class="pipeline-arrow">
-                    <svg viewBox="0 0 40 24"><path d="M0 12 L30 12 M24 6 L30 12 L24 18" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+                <div class="card">
+                    <h3>🔬 Multimodal Intelligence</h3>
+                    <p>Combines visual crop features with temp, humidity, and soil moisture to eliminate false alerts.</p>
                 </div>
-                <div class="pipeline-step">
-                    <div class="pipeline-node">
-                        <span class="pipeline-emoji">🖥️</span>
-                    </div>
-                    <span class="pipeline-label">Raspberry Pi Edge AI</span>
-                </div>
-                <div class="pipeline-arrow">
-                    <svg viewBox="0 0 40 24"><path d="M0 12 L30 12 M24 6 L30 12 L24 18" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-                </div>
-                <div class="pipeline-step">
-                    <div class="pipeline-node">
-                        <span class="pipeline-emoji">🧠</span>
-                    </div>
-                    <span class="pipeline-label">Multimodal Decision Engine</span>
-                </div>
-                <div class="pipeline-arrow pipeline-arrow-split">
-                    <svg viewBox="0 0 40 48">
-                        <path d="M0 24 L15 24 M15 24 L30 8 M24 4 L30 8 L24 14" fill="none" stroke="currentColor" stroke-width="2"/>
-                        <path d="M15 24 L30 40 M24 34 L30 40 L24 44" fill="none" stroke="currentColor" stroke-width="2"/>
-                    </svg>
-                </div>
-                <div class="pipeline-outputs">
-                    <div class="pipeline-step pipeline-output">
-                        <div class="pipeline-node node-alert">
-                            <span class="pipeline-emoji">🚨</span>
-                        </div>
-                        <span class="pipeline-label">Crop Alert</span>
-                    </div>
-                    <div class="pipeline-step pipeline-output">
-                        <div class="pipeline-node node-pump">
-                            <span class="pipeline-emoji">💧</span>
-                        </div>
-                        <span class="pipeline-label">Irrigation Control</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- USP Cards -->
-            <div class="usp-grid">
-                <div class="usp-card">
-                    <div class="usp-icon-wrapper">
-                        <div class="usp-icon">📡</div>
-                        <div class="usp-icon-ring"></div>
-                    </div>
-                    <h3>Fully Offline</h3>
-                    <p>No cloud required for routine operation. All inference, alerts
-                       and pump control happen on the local Raspberry Pi.</p>
-                </div>
-                <div class="usp-card">
-                    <div class="usp-icon-wrapper">
-                        <div class="usp-icon">🔬</div>
-                        <div class="usp-icon-ring"></div>
-                    </div>
-                    <h3>Multimodal Intelligence</h3>
-                    <p>Vision and environmental sensors cross-validate each other,
-                       reducing false disease alerts compared to camera-only systems.</p>
-                </div>
-                <div class="usp-card">
-                    <div class="usp-icon-wrapper">
-                        <div class="usp-icon">💰</div>
-                        <div class="usp-icon-ring"></div>
-                    </div>
-                    <h3>Affordable & Localized</h3>
-                    <p>Low-cost hardware with regional-language UI. No mandatory cloud
-                       subscription or continuous mobile-data cost.</p>
+                <div class="card">
+                    <h3>💧 Safe Irrigation</h3>
+                    <p>Automatic soil-moisture irrigation control with ultrasonic reservoir monitoring to prevent pump dry-runs.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ==================== ARCHITECTURE ==================== -->
+    <!-- ARCHITECTURE -->
     <section class="section" id="architecture">
         <div class="container">
             <div class="section-header">
-                <span class="section-tag">Technical Deep Dive</span>
-                <h2 class="section-title">System Architecture & Multimodal AI</h2>
-                <p class="section-desc">
-                    Every component specified, every decision justified
-                </p>
+                <span class="section-tag">Technical Architecture</span>
+                <h2 class="section-title">Hardware & Sensor Fusion</h2>
             </div>
-
-            <!-- Component Table -->
-            <div class="arch-block">
-                <h3 class="arch-subtitle">
-                    <span class="arch-icon">🔧</span> Hardware Components
-                </h3>
-                <div class="table-wrapper">
-                    <table class="spec-table">
-                        <thead>
-                            <tr>
-                                <th>Layer</th>
-                                <th>Component</th>
-                                <th>Purpose</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><span class="layer-badge field">Field Node</span></td>
-                                <td>ESP32-CAM (OV2640)</td>
-                                <td>Captures crop images at scheduled intervals</td>
-                            </tr>
-                            <tr>
-                                <td><span class="layer-badge sensor">Sensor</span></td>
-                                <td>DHT22</td>
-                                <td>Temperature and humidity measurement</td>
-                            </tr>
-                            <tr>
-                                <td><span class="layer-badge sensor">Sensor</span></td>
-                                <td>Capacitive Soil Moisture v1.2</td>
-                                <td>Soil moisture for irrigation decisions</td>
-                            </tr>
-                            <tr>
-                                <td><span class="layer-badge sensor">Sensor</span></td>
-                                <td>JSN-SR04T (Ultrasonic)</td>
-                                <td>Reservoir water-level measurement</td>
-                            </tr>
-                            <tr>
-                                <td><span class="layer-badge central">Central Unit</span></td>
-                                <td>Raspberry Pi 4 (4GB)</td>
-                                <td>Offline AI inference and local dashboard</td>
-                            </tr>
-                            <tr>
-                                <td><span class="layer-badge comm">Communication</span></td>
-                                <td>Wi-Fi (ESP32 ↔ RPi)</td>
-                                <td>Image and sensor data transfer</td>
-                            </tr>
-                            <tr>
-                                <td><span class="layer-badge actuator">Actuator</span></td>
-                                <td>5V Relay + Contactor + Fuse</td>
-                                <td>Safe pump control with protection</td>
-                            </tr>
-                            <tr>
-                                <td><span class="layer-badge ui">UI</span></td>
-                                <td>Flask Local Web App</td>
-                                <td>Alerts and regional-language display</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- AI Architecture -->
-            <div class="arch-block">
-                <h3 class="arch-subtitle">
-                    <span class="arch-icon">🧠</span> AGRIPORT Multimodal Fusion Model
-                </h3>
-                <p class="arch-description">
-                    A custom lightweight multimodal model optimized for offline agricultural inference
-                </p>
-                <div class="fusion-diagram">
-                    <div class="fusion-branch vision-branch">
-                        <div class="fusion-node input-node">
-                            <span class="node-icon">📷</span>
-                            <span>Crop Image</span>
-                        </div>
-                        <div class="fusion-connector"></div>
-                        <div class="fusion-node process-node">
-                            <span>Lightweight CNN</span>
-                            <span class="node-detail">MobileNetV2 / Custom</span>
-                        </div>
-                        <div class="fusion-connector"></div>
-                        <div class="fusion-node feature-node">
-                            <span>Visual Features</span>
-                        </div>
-                    </div>
-                    <div class="fusion-merge">
-                        <div class="merge-node">
-                            <span class="merge-icon">⚡</span>
-                            <span>Fusion Layer</span>
-                        </div>
-                    </div>
-                    <div class="fusion-branch sensor-branch">
-                        <div class="fusion-node input-node">
-                            <span class="node-icon">🌡️</span>
-                            <span>Sensor Readings</span>
-                        </div>
-                        <div class="fusion-connector"></div>
-                        <div class="fusion-node process-node">
-                            <span>Normalization</span>
-                            <span class="node-detail">+ Sensor MLP</span>
-                        </div>
-                        <div class="fusion-connector"></div>
-                        <div class="fusion-node feature-node">
-                            <span>Sensor Features</span>
-                        </div>
-                    </div>
-                    <div class="fusion-output">
-                        <div class="fusion-connector vertical"></div>
-                        <div class="fusion-node output-node">
-                            <span>Healthy / Disease / Pest-Risk</span>
-                        </div>
-                        <div class="fusion-connector vertical"></div>
-                        <div class="fusion-node action-node">
-                            <span>Confidence + Recommended Action</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Fusion Logic -->
-            <div class="arch-block">
-                <h3 class="arch-subtitle">
-                    <span class="arch-icon">⚙️</span> Fusion Decision Logic
-                </h3>
-                <p class="arch-description">
-                    Hybrid rule-based + ML fusion engine for cross-validation
-                </p>
-                <div class="code-block">
-                    <div class="code-header">
-                        <span class="code-dot red"></span>
-                        <span class="code-dot yellow"></span>
-                        <span class="code-dot green"></span>
-                        <span class="code-title">decision_engine.py</span>
-                    </div>
-<pre><code><span class="code-keyword">def</span> <span class="code-func">evaluate_crop_risk</span>(vision_conf, humidity, temp, soil_moisture):
-    <span class="code-comment"># Vision confidence from CNN</span>
-    <span class="code-keyword">if</span> vision_conf > <span class="code-number">0.70</span>:
-        <span class="code-comment"># Cross-validate with environmental conditions</span>
-        <span class="code-keyword">if</span> humidity > <span class="code-number">80</span> <span class="code-keyword">and</span> <span class="code-number">20</span> < temp < <span class="code-number">35</span>:
-            <span class="code-keyword">return</span> <span class="code-string">"HIGH_RISK"</span>, <span class="code-string">"Disease conditions confirmed by sensors"</span>
-        <span class="code-keyword">else</span>:
-            <span class="code-keyword">return</span> <span class="code-string">"MODERATE_RISK"</span>, <span class="code-string">"Visual symptoms detected, environment not typical"</span>
-    <span class="code-keyword">elif</span> vision_conf > <span class="code-number">0.40</span>:
-        <span class="code-keyword">return</span> <span class="code-string">"LOW_RISK"</span>, <span class="code-string">"Uncertain — consult agricultural expert"</span>
-    <span class="code-keyword">else</span>:
-        <span class="code-keyword">return</span> <span class="code-string">"HEALTHY"</span>, <span class="code-string">"No disease indicators detected"</span>
-
-<span class="code-keyword">def</span> <span class="code-func">irrigation_decision</span>(soil_moisture, reservoir_level):
-    <span class="code-keyword">if</span> reservoir_level < <span class="code-number">15</span>:  <span class="code-comment"># percentage</span>
-        <span class="code-keyword">return</span> <span class="code-string">"PUMP_STOP"</span>, <span class="code-string">"Reservoir critically low — pump disabled"</span>
-    <span class="code-keyword">if</span> soil_moisture < <span class="code-number">30</span>:
-        <span class="code-keyword">return</span> <span class="code-string">"IRRIGATE"</span>, <span class="code-string">"Soil dry — irrigation recommended"</span>
-    <span class="code-keyword">return</span> <span class="code-string">"HOLD"</span>, <span class="code-string">"Moisture adequate"</span></code></pre>
-                </div>
-            </div>
-
-            <!-- Communication Architecture -->
-            <div class="arch-block">
-                <h3 class="arch-subtitle">
-                    <span class="arch-icon">📡</span> Communication Design
-                </h3>
-                <div class="comm-grid">
-                    <div class="comm-card">
-                        <h4>Camera</h4>
-                        <p>ESP32-CAM with OV2640, 2MP, JPEG compressed</p>
-                    </div>
-                    <div class="comm-card">
-                        <h4>Inference Location</h4>
-                        <p>Raspberry Pi 4 — all processing on-device</p>
-                    </div>
-                    <div class="comm-card">
-                        <h4>Image Transfer</h4>
-                        <p>Wi-Fi HTTP POST, ~50-100KB per frame</p>
-                    </div>
-                    <div class="comm-card">
-                        <h4>Max Node Distance</h4>
-                        <p>~30m (Wi-Fi), extendable with directional antenna</p>
-                    </div>
-                    <div class="comm-card">
-                        <h4>Node Capacity</h4>
-                        <p>Up to 4 field nodes per Raspberry Pi</p>
-                    </div>
-                    <div class="comm-card">
-                        <h4>Failure Handling</h4>
-                        <p>Local buffer on ESP32, retry on reconnection</p>
-                    </div>
-                </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Layer</th>
+                            <th>Component</th>
+                            <th>Purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Field Node</td><td>ESP32-CAM (OV2640)</td><td>Captures crop images</td></tr>
+                        <tr><td>Sensors</td><td>DHT22 / BME280</td><td>Temperature & humidity reading</td></tr>
+                        <tr><td>Sensors</td><td>Capacitive Soil Sensor v1.2</td><td>Soil moisture input for irrigation</td></tr>
+                        <tr><td>Sensor</td><td>JSN-SR04T Ultrasonic</td><td>Water reservoir level monitoring</td></tr>
+                        <tr><td>Central Processing</td><td>Raspberry Pi 4 (4GB)</td><td>Offline AI inference & web dashboard</td></tr>
+                        <tr><td>Actuator Control</td><td>Opto-Isolated Relay + Contactor</td><td>Fail-safe pump control</td></tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </section>
 
-    <!-- ==================== PROTOTYPE ==================== -->
-    <section class="section section-dark" id="prototype">
+    <!-- DEMO SECTION WITH IFRAME -->
+    <section class="section section-dark" id="demo">
         <div class="container">
             <div class="section-header">
-                <span class="section-tag">Build Status</span>
-                <h2 class="section-title">Prototype, Results & Risk Mitigation</h2>
-                <p class="section-desc">
-                    Honest reporting of what works, what's tested, and what's planned
-                </p>
+                <span class="section-tag">Video Showcase</span>
+                <h2 class="section-title">Live Prototype Demonstration</h2>
+                <p class="section-desc">Demonstration of offline inference, regional alerts, and safe pump cutoff.</p>
+            </div>
+            
+            <div class="video-wrapper">
+                <!-- Replace with your YouTube embed or Google Drive embed URL -->
+                <iframe 
+                    src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+                    title="AGRIPORT Video Demo" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
             </div>
 
-            <div class="proto-grid">
-                <!-- Module Status -->
-                <div class="proto-block">
-                    <h3 class="proto-subtitle">
-                        <span class="proto-icon">📋</span> Module Status
-                    </h3>
-                    <div class="status-table">
-                        <div class="status-row">
-                            <span class="status-module">Sensor Data Acquisition</span>
-                            <span class="status-badge completed">Completed</span>
-                        </div>
-                        <div class="status-row">
-                            <span class="status-module">Local Dashboard</span>
-                            <span class="status-badge completed">Completed</span>
-                        </div>
-                        <div class="status-row">
-                            <span class="status-module">Multilingual UI</span>
-                            <span class="status-badge completed">Completed</span>
-                        </div>
-                        <div class="status-row">
-                            <span class="status-module">Pump Relay Control</span>
-                            <span class="status-badge testing">Testing</span>
-                        </div>
-                        <div class="status-row">
-                            <span class="status-module">Vision Model (CNN)</span>
-                            <span class="status-badge testing">Training</span>
-                        </div>
-                        <div class="status-row">
-                            <span class="status-module">Multimodal Fusion</span>
-                            <span class="status-badge testing">Testing</span>
-                        </div>
-                        <div class="status-row">
-                            <span class="status-module">Outdoor Field Validation</span>
-                            <span class="status-badge planned">Planned</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Technical Measurements -->
-                <div class="proto-block">
-                    <h3 class="proto-subtitle">
-                        <span class="proto-icon">📊</span> Measured Results
-                    </h3>
-                    <div class="metrics-grid">
-                        <div class="metric-card">
-                            <span class="metric-label">Model F1-Score</span>
-                            <span class="metric-value">—%</span>
-                            <span class="metric-note">Under validation</span>
-                        </div>
-                        <div class="metric-card">
-                            <span class="metric-label">Inference Latency</span>
-                            <span class="metric-value">~800ms</span>
-                            <span class="metric-note">On Raspberry Pi 4</span>
-                        </div>
-                        <div class="metric-card">
-                            <span class="metric-label">Model Size</span>
-                            <span class="metric-value">~12MB</span>
-                            <span class="metric-note">Quantized INT8</span>
-                        </div>
-                        <div class="metric-card">
-                            <span class="metric-label">Sensor Interval</span>
-                            <span class="metric-value">5 sec</span>
-                            <span class="metric-note">Configurable</span>
-                        </div>
-                        <div class="metric-card">
-                            <span class="metric-label">Alert Latency</span>
-                            <span class="metric-value">&lt;3 sec</span>
-                            <span class="metric-note">End-to-end</span>
-                        </div>
-                        <div class="metric-card">
-                            <span class="metric-label">Offline</span>
-                            <span class="metric-value">Yes</span>
-                            <span class="metric-note">No cloud required</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Power Plan -->
-                <div class="proto-block">
-                    <h3 class="proto-subtitle">
-                        <span class="proto-icon">🔋</span> Power Architecture
-                    </h3>
-                    <div class="table-wrapper">
-                        <table class="spec-table compact">
-                            <thead>
-                                <tr>
-                                    <th>Device</th>
-                                    <th>Power</th>
-                                    <th>Daily Energy</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Raspberry Pi 4</td>
-                                    <td>~6W</td>
-                                    <td>~144 Wh</td>
-                                </tr>
-                                <tr>
-                                    <td>ESP32-CAM Node</td>
-                                    <td>~0.8W active</td>
-                                    <td>~8 Wh (duty-cycled)</td>
-                                </tr>
-                                <tr>
-                                    <td>Sensors (DHT22, Soil, Ultrasonic)</td>
-                                    <td>~0.3W</td>
-                                    <td>~3 Wh</td>
-                                </tr>
-                                <tr class="total-row">
-                                    <td><strong>Total</strong></td>
-                                    <td>—</td>
-                                    <td><strong>~155 Wh/day</strong></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <p class="power-note">
-                        <strong>Power source:</strong> Farm mains electricity with UPS backup.
-                        Solar panel + battery option for remote deployments (50W panel + 12V 40Ah battery).
-                    </p>
-                </div>
-
-                <!-- Risk Mitigation -->
-                <div class="proto-block full-width">
-                    <h3 class="proto-subtitle">
-                        <span class="proto-icon">⚠️</span> Risks & Mitigations
-                    </h3>
-                    <div class="risk-grid">
-                        <div class="risk-card">
-                            <div class="risk-header">
-                                <span class="risk-icon">💧</span>
-                                <span>Sensor Corrosion</span>
-                            </div>
-                            <p class="risk-mitigation">Capacitive soil probes (no exposed metal), IP-rated enclosures</p>
-                        </div>
-                        <div class="risk-card">
-                            <div class="risk-header">
-                                <span class="risk-icon">🌅</span>
-                                <span>Poor Lighting</span>
-                            </div>
-                            <p class="risk-mitigation">Scheduled capture during daylight, confidence thresholds</p>
-                        </div>
-                        <div class="risk-card">
-                            <div class="risk-header">
-                                <span class="risk-icon">🌿</span>
-                                <span>Unseen Crops/Diseases</span>
-                            </div>
-                            <p class="risk-mitigation">"Unknown — consult expert" output for low-confidence results</p>
-                        </div>
-                        <div class="risk-card">
-                            <div class="risk-header">
-                                <span class="risk-icon">📶</span>
-                                <span>Wireless Range</span>
-                            </div>
-                            <p class="risk-mitigation">Tested range documented, directional antenna option</p>
-                        </div>
-                        <div class="risk-card">
-                            <div class="risk-header">
-                                <span class="risk-icon">⚡</span>
-                                <span>Unsafe Pump Switching</span>
-                            </div>
-                            <p class="risk-mitigation">Contactor + fuse, watchdog timer, fail-safe pump cutoff</p>
-                        </div>
-                        <div class="risk-card">
-                            <div class="risk-header">
-                                <span class="risk-icon">🔍</span>
-                                <span>False Positives</span>
-                            </div>
-                            <p class="risk-mitigation">Multimodal cross-validation, manual override always available</p>
-                        </div>
-                    </div>
-                </div>
+            <div class="video-caption">
+                <strong>Demonstrated Steps:</strong> 1. Disconnect Internet → 2. Connect phone to local AGRIPORT Wi-Fi → 3. Read continuous sensors → 4. Offline crop disease inference → 5. Regional language warning → 6. Automated safe irrigation trigger.
             </div>
         </div>
     </section>
 
-    <!-- ==================== DEMO VIDEO ==================== -->
-    <section class="section" id="demo">
+    <!-- TEAM -->
+    <section class="section" id="team">
         <div class="container">
             <div class="section-header">
-                <span class="section-tag">See It Work</span>
-                <h2 class="section-title">Live Demo</h2>
-                <p class="section-desc">
-                    Watch AGRIPORT operating fully offline — from sensor reading to crop alert to pump control
-                </p>
+                <span class="section-tag">Smart India Hackathon 2025</span>
+                <h2 class="section-title">Team AGRIPORT</h2>
             </div>
-            <div class="video-container">
-                <div class="video-wrapper">
-                    <!-- ========================================= -->
-                    <!-- REPLACE the src URL with your video link   -->
-                    <!-- YouTube: https://www.youtube.com/embed/VIDEO_ID -->
-                    <!-- Drive: Use embeddable link                 -->
-                    <!-- ========================================= -->
-                    <iframe
-                        src="https://www.youtube.com/embed/YOUR_VIDEO_ID"
-                        title="AGRIPORT Demo Video"
-                        frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        referrerpolicy="strict-origin-when-cross-origin"
-                        allowfullscreen>
-                    </iframe>
+            <div class="grid-3">
+                <div class="card">
+                    <h3>Problem Statement</h3>
+                    <p>SIH 2025 PS ID: [Your PS ID]</p>
                 </div>
-                <div class="video-caption">
-                    <p>
-                        <strong>Demo scenario:</strong> Internet disconnected → Live sensor readings →
-                        Crop image captured → Offline inference → Tamil/local-language alert →
-                        Pump activation → Reservoir empty simulation → Automatic pump cutoff
-                    </p>
+                <div class="card">
+                    <h3>Team Details</h3>
+                    <p>Team ID: [Your Team ID]<br>Team Name: [Your Team Name]</p>
                 </div>
-            </div>
-
-            <!-- Demo Steps -->
-            <div class="demo-steps">
-                <h3 class="demo-steps-title">What the demo shows</h3>
-                <div class="steps-timeline">
-                    <div class="step">
-                        <div class="step-number">1</div>
-                        <div class="step-content">
-                            <h4>Disconnect Internet</h4>
-                            <p>Prove fully offline operation</p>
-                        </div>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">2</div>
-                        <div class="step-content">
-                            <h4>Connect to AGRIPORT Network</h4>
-                            <p>Farmer's phone joins local Wi-Fi</p>
-                        </div>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">3</div>
-                        <div class="step-content">
-                            <h4>Live Sensor Dashboard</h4>
-                            <p>Temperature, humidity, soil moisture, reservoir level</p>
-                        </div>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">4</div>
-                        <div class="step-content">
-                            <h4>Crop Image Capture</h4>
-                            <p>ESP32-CAM captures and sends image</p>
-                        </div>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">5</div>
-                        <div class="step-content">
-                            <h4>Offline AI Inference</h4>
-                            <p>Multimodal fusion result displayed</p>
-                        </div>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">6</div>
-                        <div class="step-content">
-                            <h4>Regional Language Alert</h4>
-                            <p>Tamil/Hindi warning with action steps</p>
-                        </div>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">7</div>
-                        <div class="step-content">
-                            <h4>Irrigation Control</h4>
-                            <p>Pump starts based on soil moisture</p>
-                        </div>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">8</div>
-                        <div class="step-content">
-                            <h4>Safety Cutoff</h4>
-                            <p>Low reservoir → instant pump stop</p>
-                        </div>
-                    </div>
+                <div class="card">
+                    <h3>Repository</h3>
+                    <p><a href="https://github.com/RohithSDE-dev/Agriport" target="_blank">RohithSDE-dev/Agriport</a></p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ==================== IMPACT & COST ==================== -->
-    <section class="section section-dark" id="impact">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">Real Value</span>
-                <h2 class="section-title">Impact, Cost & Comparison</h2>
-            </div>
-
-            <div class="impact-grid">
-                <!-- User Journey -->
-                <div class="impact-block">
-                    <h3 class="impact-subtitle">
-                        <span class="impact-icon">👨‍🌾</span> Farmer Journey
-                    </h3>
-                    <div class="journey">
-                        <div class="journey-step">
-                            <div class="journey-dot"></div>
-                            <p>Farmer installs field node near crops</p>
-                        </div>
-                        <div class="journey-step">
-                            <div class="journey-dot"></div>
-                            <p>System monitors crop and soil continuously</p>
-                        </div>
-                        <div class="journey-step">
-                            <div class="journey-dot"></div>
-                            <p>Risk detected offline by multimodal AI</p>
-                        </div>
-                        <div class="journey-step">
-                            <div class="journey-dot"></div>
-                            <p>Tamil/local-language warning displayed</p>
-                        </div>
-                        <div class="journey-step">
-                            <div class="journey-dot"></div>
-                            <p>Recommended action shown with confidence</p>
-                        </div>
-                        <div class="journey-step">
-                            <div class="journey-dot"></div>
-                            <p>Pump operates only under safe conditions</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Dashboard Preview -->
-                <div class="impact-block">
-                    <h3 class="impact-subtitle">
-                        <span class="impact-icon">📱</span> Multilingual Dashboard
-                    </h3>
-                    <div class="dashboard-preview">
-                        <div class="dash-mockup">
-                            <div class="dash-topbar">
-                                <span>🌱 AGRIPORT</span>
-                                <span class="dash-lang">தமிழ் ▾</span>
-                            </div>
-                            <div class="dash-states">
-                                <div class="dash-state healthy">
-                                    <span class="state-icon">✅</span>
-                                    <span class="state-text">பயிர் ஆரோக்கியம்</span>
-                                    <span class="state-eng">Crop Healthy</span>
-                                </div>
-                                <div class="dash-state warning">
-                                    <span class="state-icon">⚠️</span>
-                                    <span class="state-text">நோய் சந்தேகம்</span>
-                                    <span class="state-eng">Disease Suspected</span>
-                                </div>
-                                <div class="dash-state danger">
-                                    <span class="state-icon">🚨</span>
-                                    <span class="state-text">நீர்த்தொட்டி குறைவு</span>
-                                    <span class="state-eng">Low Reservoir</span>
-                                </div>
-                                <div class="dash-state stopped">
-                                    <span class="state-icon">🛑</span>
-                                    <span class="state-text">பம்ப் நிறுத்தப்பட்டது</span>
-                                    <span class="state-eng">Pump Stopped</span>
-                                </div>
-                                <div class="dash-state offline">
-                                    <span class="state-icon">📡</span>
-                                    <span class="state-text">சென்சார் ஆஃப்லைன்</span>
-                                    <span class="state-eng">Sensor Offline</span>
-                                </div>
-                                <div class="dash-state manual">
-                                    <span class="state-icon">🔧</span>
-                                    <span class="state-text">கைமுறை கட்டுப்பாடு</span>
-                                    <span class="state-eng">Manual Override</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Bill of Materials -->
-                <div class="impact-block">
-                    <h3 class="impact-subtitle">
-                        <span class="impact-icon">💰</span> Bill of Materials
-                    </h3>
-                    <div class="table-wrapper">
-                        <table class="spec-table compact">
-                            <thead>
-                                <tr>
-                                    <th>Component</th>
-                                    <th>Qty</th>
-                                    <th>Cost (₹)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Raspberry Pi 4 (4GB)</td>
-                                    <td>1</td>
-                                    <td>₹3,500</td>
-                                </tr>
-                                <tr>
-                                    <td>ESP32-CAM Module</td>
-                                    <td>1</td>
-                                    <td>₹550</td>
-                                </tr>
-                                <tr>
-                                    <td>DHT22 Sensor</td>
-                                    <td>1</td>
-                                    <td>₹250</td>
-                                </tr>
-                                <tr>
-                                    <td>Capacitive Soil Moisture</td>
-                                    <td>1</td>
-                                    <td>₹150</td>
-                                </tr>
-                                <tr>
-                                    <td>JSN-SR04T Ultrasonic</td>
-                                    <td>1</td>
-                                    <td>₹350</td>
-                                </tr>
-                                <tr>
-                                    <td>Relay + Contactor + Fuse</td>
-                                    <td>1</td>
-                                    <td>₹300</td>
-                                </tr>
-                                <tr>
-                                    <td>Power Supply / Adapter</td>
-                                    <td>1</td>
-                                    <td>₹250</td>
-                                </tr>
-                                <tr>
-                                    <td>Enclosure, Wiring, PCB</td>
-                                    <td>—</td>
-                                    <td>₹400</td>
-                                </tr>
-                                <tr class="total-row">
-                                    <td><strong>Total Prototype</strong></td>
-                                    <td></td>
-                                    <td><strong>₹5,750</strong></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <p class="bom-note">
-                        * Prices based on Indian retail/wholesale as of 2025.
-                        Production cost expected to decrease at scale.
-                    </p>
-                </div>
-
-                <!-- Competitive Comparison -->
-                <div class="impact-block">
-                    <h3 class="impact-subtitle">
-                        <span class="impact-icon">📊</span> Competitive Analysis
-                    </h3>
-                    <div class="table-wrapper">
-                        <table class="comparison-table">
-                            <thead>
-                                <tr>
-                                    <th>Feature</th>
-                                    <th>Plantix</th>
-                                    <th>Cloud IoT</th>
-                                    <th class="highlight-col">AGRIPORT</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Offline Monitoring</td>
-                                    <td>Partial</td>
-                                    <td>No</td>
-                                    <td class="highlight-col">✅ Yes</td>
-                                </tr>
-                                <tr>
-                                    <td>Continuous Sensors</td>
-                                    <td>No</td>
-                                    <td>Yes</td>
-                                    <td class="highlight-col">✅ Yes</td>
-                                </tr>
-                                <tr>
-                                    <td>Image + Sensor Fusion</td>
-                                    <td>Limited</td>
-                                    <td>Varies</td>
-                                    <td class="highlight-col">✅ Yes</td>
-                                </tr>
-                                <tr>
-                                    <td>Pump Protection</td>
-                                    <td>No</td>
-                                    <td>Varies</td>
-                                    <td class="highlight-col">✅ Yes</td>
-                                </tr>
-                                <tr>
-                                    <td>Regional Language UI</td>
-                                    <td>Yes</td>
-                                    <td>Varies</td>
-                                    <td class="highlight-col">✅ Yes</td>
-                                </tr>
-                                <tr>
-                                    <td>Mandatory Subscription</td>
-                                    <td>No/Varies</td>
-                                    <td>Often</td>
-                                    <td class="highlight-col">✅ No</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- Expected Impact -->
-                <div class="impact-block full-width">
-                    <h3 class="impact-subtitle">
-                        <span class="impact-icon">🎯</span> Expected Impact
-                    </h3>
-                    <div class="impact-cards">
-                        <div class="expected-card">
-                            <span class="expected-icon">🧪</span>
-                            <p>Potential to <strong>reduce unnecessary pesticide spraying</strong> through cross-validated alerts</p>
-                        </div>
-                        <div class="expected-card">
-                            <span class="expected-icon">💧</span>
-                            <p>Expected to <strong>reduce irrigation water waste</strong> with soil-moisture-driven scheduling</p>
-                        </div>
-                        <div class="expected-card">
-                            <span class="expected-icon">⚙️</span>
-                            <p>Designed to <strong>prevent pump dry-run damage</strong> with reservoir-level monitoring</p>
-                        </div>
-                        <div class="expected-card">
-                            <span class="expected-icon">🌐</span>
-                            <p><strong>No mandatory cloud subscription</strong> or continuous mobile-data cost</p>
-                        </div>
-                        <div class="expected-card">
-                            <span class="expected-icon">🧑‍🌾</span>
-                            <p><strong>Field validation planned</strong> with local farmers for real-world feedback</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ==================== ROADMAP ==================== -->
-    <section class="section" id="roadmap">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">What's Next</span>
-                <h2 class="section-title">Validation Plan & Roadmap</h2>
-            </div>
-
-            <div class="roadmap-content">
-                <!-- Validation Plan -->
-                <div class="validation-plan">
-                    <h3 class="roadmap-subtitle">Validation Methodology</h3>
-                    <ol class="validation-list">
-                        <li>
-                            <span class="val-num">1</span>
-                            <span>Collect real field images for one selected crop</span>
-                        </li>
-                        <li>
-                            <span class="val-num">2</span>
-                            <span>Annotate healthy, disease and pest classes with an agricultural expert</span>
-                        </li>
-                        <li>
-                            <span class="val-num">3</span>
-                            <span>Split data by farm/session — not randomly by similar images</span>
-                        </li>
-                        <li>
-                            <span class="val-num">4</span>
-                            <span>Compare vision-only vs. multimodal results</span>
-                        </li>
-                        <li>
-                            <span class="val-num">5</span>
-                            <span>Test under sunlight, shade and poor lighting conditions</span>
-                        </li>
-                        <li>
-                            <span class="val-num">6</span>
-                            <span>Measure accuracy, latency, power and wireless range</span>
-                        </li>
-                        <li>
-                            <span class="val-num">7</span>
-                            <span>Conduct farmer usability testing with local-language interface</span>
-                        </li>
-                    </ol>
-                </div>
-
-                <!-- Phase Roadmap -->
-                <div class="phases">
-                    <h3 class="roadmap-subtitle">Development Phases</h3>
-                    <div class="phase-timeline">
-                        <div class="phase active">
-                            <div class="phase-marker">
-                                <span class="phase-num">1</span>
-                            </div>
-                            <div class="phase-content">
-                                <h4>Foundation</h4>
-                                <p>One crop + 3 conditions + one field node</p>
-                                <span class="phase-status">Current</span>
-                            </div>
-                        </div>
-                        <div class="phase">
-                            <div class="phase-marker">
-                                <span class="phase-num">2</span>
-                            </div>
-                            <div class="phase-content">
-                                <h4>Intelligence</h4>
-                                <p>Multimodal fusion and pump safety validation</p>
-                                <span class="phase-status">Next</span>
-                            </div>
-                        </div>
-                        <div class="phase">
-                            <div class="phase-marker">
-                                <span class="phase-num">3</span>
-                            </div>
-                            <div class="phase-content">
-                                <h4>Field Pilot</h4>
-                                <p>Five-node deployment on real farms</p>
-                                <span class="phase-status">Planned</span>
-                            </div>
-                        </div>
-                        <div class="phase">
-                            <div class="phase-marker">
-                                <span class="phase-num">4</span>
-                            </div>
-                            <div class="phase-content">
-                                <h4>Scale</h4>
-                                <p>Additional crops + optional government dashboard sync</p>
-                                <span class="phase-status">Future</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ==================== TEAM ==================== -->
-    <section class="section section-dark" id="team">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">Who We Are</span>
-                <h2 class="section-title">Team</h2>
-            </div>
-
-            <div class="team-info">
-                <div class="team-meta">
-                    <div class="meta-item">
-                        <span class="meta-label">Problem Statement</span>
-                        <span class="meta-value">SIH 2025 — [Your PS ID]</span>
-                    </div>
-                    <div class="meta-item">
-                        <span class="meta-label">Team ID</span>
-                        <span class="meta-value">[Your Team ID]</span>
-                    </div>
-                    <div class="meta-item">
-                        <span class="meta-label">Team Name</span>
-                        <span class="meta-value">[Your Team Name]</span>
-                    </div>
-                </div>
-
-                <div class="team-grid">
-                    <!-- Duplicate and edit these cards for each team member -->
-                    <div class="team-card">
-                        <div class="team-avatar">👤</div>
-                        <h4>Member Name</h4>
-                        <p>Role — e.g., AI/ML Lead</p>
-                    </div>
-                    <div class="team-card">
-                        <div class="team-avatar">👤</div>
-                        <h4>Member Name</h4>
-                        <p>Role — e.g., Hardware Lead</p>
-                    </div>
-                    <div class="team-card">
-                        <div class="team-avatar">👤</div>
-                        <h4>Member Name</h4>
-                        <p>Role — e.g., Full-Stack Dev</p>
-                    </div>
-                    <div class="team-card">
-                        <div class="team-avatar">👤</div>
-                        <h4>Member Name</h4>
-                        <p>Role — e.g., IoT & Sensors</p>
-                    </div>
-                    <div class="team-card">
-                        <div class="team-avatar">👤</div>
-                        <h4>Member Name</h4>
-                        <p>Role — e.g., UI/UX Design</p>
-                    </div>
-                    <div class="team-card">
-                        <div class="team-avatar">👤</div>
-                        <h4>Member Name</h4>
-                        <p>Role — e.g., Research & Testing</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Final Pitch -->
-            <div class="final-pitch">
-                <blockquote>
-                    "AGRIPORT is an offline, field-deployable farming assistant that combines
-                    crop images with environmental sensor data to improve alert reliability,
-                    protect irrigation pumps and deliver localized guidance without mandatory
-                    cloud connectivity."
-                </blockquote>
-            </div>
-        </div>
-    </section>
-
-    <!-- ==================== FOOTER ==================== -->
+    <!-- FOOTER -->
     <footer class="footer">
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <span class="logo-icon">🌱</span>
-                    <span class="logo-text">AGRIPORT</span>
-                </div>
-                <p>Smart India Hackathon 2025 — Offline Multimodal Edge AI for Smart Farming</p>
-                <div class="footer-links">
-                    <a href="https://github.com/YOUR_USERNAME/agriport" target="_blank">GitHub Repository</a>
-                    <span>•</span>
-                    <a href="#demo">Demo Video</a>
-                    <span>•</span>
-                    <a href="#team">Contact Team</a>
-                </div>
-            </div>
+            <p>🌱 <strong>AGRIPORT</strong> — Smart India Hackathon 2025 Submission</p>
         </div>
     </footer>
 
-    <script src="js/main.js"></script>
 </body>
 </html>
